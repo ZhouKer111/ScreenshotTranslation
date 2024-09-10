@@ -22,6 +22,7 @@ class TranslationWindow:
         'Japanese': 'japan',
         'Korean': 'korean',
     }
+
     selection_languages = {
         "Chinese(Simplified)": "Chinese(Simplified)",
         "Chinese(Traditional)":'Chinese(Traditional)',
@@ -90,6 +91,9 @@ class TranslationWindow:
             # 隐藏复选框
             self.switch_button.pack_forget()
             self.manga_switch_var.set(False)
+        if 'Korean' == source_language:
+            self.ocrbody.set_ocr('easyocr', 'ko')
+            return 
         
         source_language = TranslationWindow.ocr_languages[source_language]
         self.ocrbody.set_ocr('paddle', source_language)
@@ -132,9 +136,8 @@ class TranslationWindow:
     def on_mouse_click(self, x, y, button, pressed):
         
         # ctrl 加鼠标左键来选取截图范围区域
-        if button == mouse.Button.left and keyboard.is_pressed('ctrl'):
-
-            if pressed:
+        if button == mouse.Button.left:
+            if keyboard.is_pressed('ctrl') and pressed:
                 if not self.is_selection_windows_init:
                     return
                 self.x_start, self.y_start = x, y
@@ -165,7 +168,6 @@ class TranslationWindow:
                 
     def on_mouse_move(self, x, y):
         if self.ctrl_and_mouse_click:
-            # print(f"Draw canvas: x_start:{self.x_start}, y_start:{self.y_start}")
             self.screen_windows.canvas_draw(self.x_start, self.y_start, x, y)
             
     def create_selection_window(self):
@@ -329,7 +331,7 @@ class OcrBody:
         if ocr_type == 'mangaocr':
             self.ocr = MangaOcr()
         elif ocr_type == 'easyocr':
-            self.ocr = easyocr.Reader(languages)
+            self.ocr = easyocr.Reader([languages])
         elif ocr_type == 'paddle':
             self.ocr = PaddleOCR(use_angle_cls=True, lang=languages, max_text_length=1000)
         else:
@@ -388,7 +390,7 @@ class OcrBody:
         """
         转换图片格式
         """
-        # 先将传进来得图片统一成Image
+        # 先将传进来的图片统一成Image
         if os.path.isfile(img):
             img = Image.open(img)
         elif isinstance(img, np.ndarray) and img.ndim == 3 and img.shape[2] in [3, 4]:
@@ -399,7 +401,7 @@ class OcrBody:
             print('Image not supported.')
             return None
         
-        # 根据to_type转为所需要得图片格式
+        # 根据to_type转为所需要的图片格式
         match to_type:
             case 'image':
                 return img
