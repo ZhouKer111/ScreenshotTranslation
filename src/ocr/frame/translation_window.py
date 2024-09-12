@@ -161,6 +161,8 @@ class TranslationWindow:
             self.is_selection_windows_init = False
             
     def create_selection_window(self):
+        if self.is_selection_windows_init:
+            return
         self.screen_windows.create_selection_window()
         self.screen_windows.create_selection_canvas()
         self.is_selection_windows_init = True
