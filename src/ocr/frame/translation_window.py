@@ -7,7 +7,7 @@ import numpy as np
 from PIL import ImageGrab
 from ocr.body_util import OcrContext,OcrBodyFactory
 from ocr.util import TranslationUtil
-from screenshot_translation import ScreenWindow
+from ocr.frame import ScreenWindow
 
 class TranslationWindow:
 

@@ -7,8 +7,8 @@ class EasyOcrBody(OcrBody):
     def __init__(self, language):
         self.supported_languages = {
             'English': 'en',
-            'Chinese (Simplified)': 'ch_sim',
-            'Chinese (Traditional)': 'ch_tra',
+            'Chinese(Simplified)': 'ch_sim',
+            'Chinese(Traditional)': 'ch_tra',
             'Japanese': 'ja',
             'Korean': 'ko'
         }

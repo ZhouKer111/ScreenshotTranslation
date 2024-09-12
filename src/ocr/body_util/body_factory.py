@@ -8,6 +8,6 @@ class OcrBodyFactory:
         elif ocr_type == 'easyocr':
             return EasyOcrBody(language)
         elif ocr_type == 'mangaocr':
-            return MangaOcrBody()
+            return MangaOcrBody(language)
         else:
             raise ValueError(f"Unsupported OCR type: {ocr_type}")
