@@ -162,6 +162,7 @@ class TranslationWindow:
             
     def create_selection_window(self):
         if self.is_selection_windows_init:
+            self.on_closing_selection_window()
             return
         self.screen_windows.create_selection_window()
         self.screen_windows.create_selection_canvas()
